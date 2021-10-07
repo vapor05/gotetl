@@ -4,25 +4,25 @@ import (
 	"testing"
 )
 
-func TestParseRow(t *testing.T) {
-	want := Row{[]Column{
+func TestParseSchema(t *testing.T) {
+	want := Schema{[]Column{
 		{"ID"},
 		{"var1"},
 		{"date_created"},
 		{"column4"},
 	}}
 	line := "ID,var1,date_created,column4"
-	row, err := ParseRow(line)
+	sch, err := ParseSchema(line)
 
 	for i, w := range want.Columns {
-		c := row.Columns[i]
+		c := sch.Columns[i]
 		if c.Name != w.Name || err != nil {
-			t.Fatalf(`ParseRow(line) = %q, want: %v`, row, want)
+			t.Fatalf(`ParseSchema(line) = %q, want: %v`, sch, want)
 		}
 	}
 
-	row, err = ParseRow("")
-	if len(row.Columns) != 0 || err == nil {
-		t.Fatalf(`ParseRow("") = %q, %v want: Row{[]Column{}}, error`, row, err)
+	sch, err = ParseSchema("")
+	if len(sch.Columns) != 0 || err == nil {
+		t.Fatalf(`ParseSchema("") = %q, %v want: Row{[]Column{}}, error`, sch, err)
 	}
 }
