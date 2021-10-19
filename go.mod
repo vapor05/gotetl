@@ -1,3 +1,3 @@
-module github.com/vapor05/go-etl
+module goetl
 
 go 1.17

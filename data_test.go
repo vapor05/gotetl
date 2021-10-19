@@ -1,17 +1,15 @@
-package data
+package goetl
 
 import (
 	"testing"
-
-	"github.com/vapor05/go-etl/schema"
 )
 
 func TestReadHeader(t *testing.T) {
 	want := CsvFile{
 		File: "test_simple.csv",
 		Name: "test_simple",
-		Schema: schema.Schema{
-			Columns: []schema.Column{
+		Schema: Schema{
+			Columns: []Column{
 				{Name: "id"},
 				{Name: "col1"},
 				{Name: "date"},

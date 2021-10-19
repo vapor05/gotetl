@@ -1,16 +1,15 @@
-package data
+package goetl
 
 import (
 	"errors"
 
-	"github.com/vapor05/go-etl/read"
-	"github.com/vapor05/go-etl/schema"
+	read "goetl/read"
 )
 
 type CsvFile struct {
 	File   string
 	Name   string
-	Schema schema.Schema
+	Schema Schema
 }
 
 func (csv *CsvFile) ReadHeader() error {
@@ -19,7 +18,7 @@ func (csv *CsvFile) ReadHeader() error {
 		return errors.New("Couldn't read file header")
 	}
 
-	sch, err := schema.ParseSchema(header)
+	sch, err := ParseSchema(header)
 	if err != nil {
 		return errors.New("Couldn't parse schema")
 	}

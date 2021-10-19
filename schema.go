@@ -1,4 +1,4 @@
-package schema
+package goetl
 
 import (
 	"errors"
@@ -10,7 +10,7 @@ import (
 
 var (
 	intRegexp   = regexp.MustCompile(`\d+`)
-	floatRegexp = regexp.MustCompile(`\d+.\d?+`)
+	floatRegexp = regexp.MustCompile(`\d+.\d+?`)
 	boolRegexp  = regexp.MustCompile(`(?i)true|(?i)false`)
 )
 
