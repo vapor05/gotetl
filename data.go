@@ -3,7 +3,7 @@ package goetl
 import (
 	"errors"
 
-	read "goetl/read"
+	goetl "goetl/read"
 )
 
 type CsvFile struct {
@@ -13,7 +13,7 @@ type CsvFile struct {
 }
 
 func (csv *CsvFile) ReadHeader() error {
-	header, err := read.ReadFileLine(csv.File)
+	header, err := goetl.ReadFileLine(csv.File)
 	if err != nil {
 		return errors.New("Couldn't read file header")
 	}

@@ -2,6 +2,7 @@ package goetl
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -10,7 +11,7 @@ import (
 
 var (
 	intRegexp   = regexp.MustCompile(`\d+`)
-	floatRegexp = regexp.MustCompile(`\d+.\d+?`)
+	floatRegexp = regexp.MustCompile(`\d+.\d+`)
 	boolRegexp  = regexp.MustCompile(`(?i)true|(?i)false`)
 )
 
@@ -58,18 +59,31 @@ type DateType struct {
 
 type UnknownType struct{}
 
-func DetectValueType(value string) interface{} {
+func DetectValueType(value string) (interface{}, error) {
 	switch {
-	case intRegexp.MatchString(value):
-		intValue, _ := strconv.Atoi(value)
-		return IntegerType{intValue}
 	case floatRegexp.MatchString(value):
-		floatValue, _ := strconv.ParseFloat(value, 64)
-		return FloatType{floatValue}
+		fmt.Println("Match float!")
+		floatValue, err := strconv.ParseFloat(value, 64)
+		if err != nil {
+			return UnknownType{}, err
+		}
+		return FloatType{floatValue}, nil
+	case intRegexp.MatchString(value):
+		fmt.Println("Match int!")
+		intValue, err := strconv.Atoi(value)
+		if err != nil {
+			return UnknownType{}, err
+		}
+		return IntegerType{intValue}, nil
 	case boolRegexp.MatchString(value):
-		boolValue, _ := strconv.ParseBool(strings.ToLower(value))
-		return BoolType{boolValue}
+		fmt.Println("Match bool!")
+		boolValue, err := strconv.ParseBool(strings.ToLower(value))
+		if err != nil {
+			return UnknownType{}, err
+		}
+		return BoolType{boolValue}, nil
 	}
 
-	return UnknownType{}
+	fmt.Println("Match nothing!")
+	return StringType{value}, nil
 }
