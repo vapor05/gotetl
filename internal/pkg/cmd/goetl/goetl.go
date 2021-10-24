@@ -17,12 +17,18 @@ func BuildCommand() (Command, error) {
 
     opts, err := args.GetOptions()
     if err != nil {
-        return cmd, fmt.Errorf("failed to parse command args: %w", err)
+        return nil, fmt.Errorf("failed to parse command args: %w", err)
     }
 
-    switch opts.Command {
+    switch opts.CommandName() {
     case "schema":
-        cmd = schema.Command{Name: opts.Command, Opts: opts}
+        schemaOpts, err := schema.BuildSchemaOptions(opts)
+        if err != nil {
+            return nil, fmt.Errorf("could not build schema command options: %w", err)
+        }
+        cmd = schema.Command{Name: opts.CommandName(), Opts: schemaOpts}
+    default:
+        return nil, fmt.Errorf("unknown scommand")
     }
 
     return cmd, nil

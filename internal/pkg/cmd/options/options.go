@@ -1,8 +1,7 @@
 package options
 
 
-type CommandOptions struct {
-  Command string
-  Filename string
-  Format string
+type CommandOptions interface {
+    CommandName() string
+    Options() map[string]string
 }

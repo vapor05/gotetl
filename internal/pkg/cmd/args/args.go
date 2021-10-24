@@ -47,14 +47,29 @@ func GetOptions() (options.CommandOptions, error) {
         if err != nil {
             return opts, fmt.Errorf("Bad arguments passed: %w", err)
         }
-        opts = options.CommandOptions{
-            Command: cmd,
-            Filename: filename,
-            Format: format,
+        opts = CommandOptions{
+            name: cmd,
+            commandOptions: map[string]string{
+                "Filename": filename,
+                "Format": format,
+            },
         }
     default:
         return opts, errors.New("unrecognized subcommand: " + cmd)
     }
 
     return opts, nil
+}
+
+type CommandOptions struct {
+    name string
+    commandOptions map[string]string
+}
+
+func (co CommandOptions) CommandName() string {
+    return co.name
+}
+
+func (co CommandOptions) Options() map[string]string {
+    return co.commandOptions
 }
